@@ -7,6 +7,8 @@ export const userService = {
       const response = await fetch(`https://randomuser.me/api/?page=${page}&results=${results}`);
       const data: RandomUserResponse = await response.json();
 
+      await db.users.clear();
+
       await db.users.bulkAdd(data.results);
 
       return data.results;
