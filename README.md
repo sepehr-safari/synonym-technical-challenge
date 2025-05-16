@@ -19,7 +19,7 @@ A Next.js application that demonstrates user management with offline capabilitie
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/sepehr-safari/synonym-technical-challenge
 cd synonym-technical-challenge
 ```
 
