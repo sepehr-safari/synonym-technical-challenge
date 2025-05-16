@@ -1,9 +1,25 @@
 'use client';
 
+import { useRandomUser } from './hooks/useRandomUser';
+
 export default function Home() {
+  const { users, isLoading, error } = useRandomUser();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
-      <h1>Hello World</h1>
+      {error && <div>Error: {error}</div>}
+
+      {users.map((user) => (
+        <div key={user.login.uuid}>
+          <h1>
+            {user.name.first} {user.name.last}
+          </h1>
+        </div>
+      ))}
     </div>
   );
 }
