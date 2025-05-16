@@ -14,6 +14,9 @@ type Store = {
 
   isOffline: boolean;
   setIsOffline: (isOffline: boolean) => void;
+
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 };
 
 export const useStore = create<Store>((set) => ({
@@ -32,4 +35,8 @@ export const useStore = create<Store>((set) => ({
   // Offline states
   isOffline: false,
   setIsOffline: (isOffline: boolean) => set({ isOffline }),
+
+  // Search states
+  searchQuery: '',
+  setSearchQuery: (query: string) => set({ searchQuery: query }),
 }));

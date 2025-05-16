@@ -1,22 +1,38 @@
 'use client';
 
-import { ErrorBanner, Loading, OfflineBanner, UserGrid } from '@/components';
+import { useMemo } from 'react';
+
+import { ErrorBanner, Loading, OfflineBanner, Searchbar, UserGrid } from '@/components';
 
 import { useRandomUser } from '@/hooks/useRandomUser';
+import { useStore } from '@/lib/store';
 
 export default function Home() {
   const { users, isLoading } = useRandomUser();
+  const { searchQuery } = useStore();
+
+  const formattedUsers = useMemo(
+    () =>
+      users
+        .map((user) => ({
+          id: user.login.uuid,
+          name: `${user.name.first} ${user.name.last}`,
+          email: user.email,
+          avatar: user.picture.large,
+        }))
+        .filter((user) => {
+          const searchLower = searchQuery.toLowerCase();
+          return (
+            user.name.toLowerCase().includes(searchLower) ||
+            user.email.toLowerCase().includes(searchLower)
+          );
+        }),
+    [users, searchQuery]
+  );
 
   if (isLoading) {
     return <Loading />;
   }
-
-  const formattedUsers = users.map((user) => ({
-    id: user.login.uuid,
-    name: `${user.name.first} ${user.name.last}`,
-    email: user.email,
-    avatar: user.picture.large,
-  }));
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -28,6 +44,11 @@ export default function Home() {
         </div>
 
         <h1 className="text-3xl font-bold text-gray-900 mb-8 px-6">Users</h1>
+
+        <div className="px-6">
+          <Searchbar />
+        </div>
+
         <UserGrid users={formattedUsers} />
       </div>
     </main>
