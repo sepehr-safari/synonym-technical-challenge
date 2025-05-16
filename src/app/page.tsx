@@ -1,7 +1,7 @@
 'use client';
 
-import UserGrid from './components/UserGrid';
-import { useRandomUser } from './hooks/useRandomUser';
+import UserGrid from '@/components/UserGrid';
+import { useRandomUser } from '@/hooks/useRandomUser';
 
 export default function Home() {
   const { users, isLoading, error } = useRandomUser();
