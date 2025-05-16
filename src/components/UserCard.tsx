@@ -6,7 +6,7 @@ interface UserCardProps {
   avatar?: string;
 }
 
-export default function UserCard({ name, email, avatar }: UserCardProps) {
+export const UserCard = ({ name, email, avatar }: UserCardProps) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
       <div className="flex items-center space-x-4">
@@ -24,4 +24,4 @@ export default function UserCard({ name, email, avatar }: UserCardProps) {
       </div>
     </div>
   );
-}
+};
