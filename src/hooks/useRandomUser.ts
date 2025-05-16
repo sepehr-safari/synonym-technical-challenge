@@ -9,22 +9,29 @@ export const useRandomUser = () => {
   const { users, setUsers, isLoading, setIsLoading, error, setError } = useStore();
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      setIsLoading(true);
-      try {
-        const users = await userService.fetchAndStoreUsers();
+    setIsLoading(true);
+
+    userService
+      .fetchAndStoreUsers()
+      .then((users) => {
         setUsers(users);
-      } catch (error) {
+        setError(null);
+      })
+      .catch((error) => {
         setError(error instanceof Error ? error.message : String(error));
 
-        const offlineUsers = await userService.getAllUsers();
-        setUsers(offlineUsers);
-      } finally {
+        userService
+          .getAllUsers()
+          .then((users) => {
+            setUsers(users);
+          })
+          .catch((error) => {
+            setError(error instanceof Error ? error.message : String(error));
+          });
+      })
+      .finally(() => {
         setIsLoading(false);
-      }
-    };
-
-    fetchUsers();
+      });
   }, [setUsers, setIsLoading, setError]);
 
   return { users, isLoading, error };
